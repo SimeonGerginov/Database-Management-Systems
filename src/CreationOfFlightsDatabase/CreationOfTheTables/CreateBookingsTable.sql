@@ -11,3 +11,21 @@ CREATE TABLE Bookings (
 	               NOT NULL,
 	order_date date NOT NULL
 );
+GO
+
+CREATE TRIGGER trigger_for_order_date
+ON Bookings 
+FOR INSERT, UPDATE
+AS
+BEGIN
+   DECLARE @flight_date date;
+   DECLARE @order_date date;
+   SET @flight_date = (SELECT f.flight_date FROM Flights f 
+                       JOIN INSERTED i 
+					   ON i.flight_number = f.flight_number);
+   SELECT @order_date = i.order_date FROM INSERTED i;
+
+   IF @flight_date <= @order_date
+      RAISERROR('order_date must be before flight_date', -1, -1)
+END
+GO

@@ -17,3 +17,8 @@ CREATE TABLE Schedules (
 	distance integer check (distance >= 0),
 	PRIMARY KEY (airline_code, flight_number)
 );
+GO
+
+ALTER TABLE Schedules ADD CONSTRAINT
+    Time_Schedules CHECK (dept_time < arrv_time)
+GO
