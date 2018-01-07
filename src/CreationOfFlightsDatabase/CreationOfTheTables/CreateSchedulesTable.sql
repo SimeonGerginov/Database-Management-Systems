@@ -20,5 +20,5 @@ CREATE TABLE Schedules (
 GO
 
 ALTER TABLE Schedules ADD CONSTRAINT
-    Time_Schedules CHECK (dept_time < arrv_time)
+    Time_Schedules CHECK (arrv_time > dept_time)
 GO
