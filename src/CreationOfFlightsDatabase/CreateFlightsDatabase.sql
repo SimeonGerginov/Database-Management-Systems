@@ -63,7 +63,7 @@ CREATE TABLE Bookings (
 	booking_number integer check (booking_number BETWEEN 10000000 AND 99999999)
 	               PRIMARY KEY,
 	customer_number integer check (customer_number BETWEEN 10000000 AND 99999999)
-	               NOT NULL,
+	                NOT NULL,
 	order_date date NOT NULL
 );
 GO
@@ -75,7 +75,8 @@ AS
 BEGIN
    DECLARE @flight_date date;
    DECLARE @order_date date;
-   SET @flight_date = (SELECT f.flight_date FROM Flights f 
+   SET @flight_date = (SELECT f.flight_date 
+                       FROM Flights f 
                        JOIN INSERTED i 
 					   ON i.flight_number = f.flight_number);
    SELECT @order_date = i.order_date FROM INSERTED i;

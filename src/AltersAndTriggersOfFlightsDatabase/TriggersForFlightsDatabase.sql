@@ -8,9 +8,10 @@ AS
 BEGIN
    DECLARE @flight_date date;
    DECLARE @order_date date;
-   SET @flight_date = (SELECT f.flight_date FROM Flights f 
+   SET @flight_date = (SELECT f.flight_date 
+	                     FROM Flights f 
                        JOIN INSERTED i 
-					   ON i.flight_number = f.flight_number);
+					             ON i.flight_number = f.flight_number);
    SELECT @order_date = i.order_date FROM INSERTED i;
 
    IF @order_date > @flight_date
@@ -23,7 +24,7 @@ ON Bookings
 FOR INSERT
 AS
 BEGIN
-    DECLARE @fclass integer;
+  DECLARE @fclass integer;
 	DECLARE @flight_number integer;
 	DECLARE @price decimal(12, 2);
 	DECLARE @occ_econ_cap integer;
@@ -57,7 +58,7 @@ ON Bookings
 FOR DELETE
 AS
 BEGIN
-    DECLARE @fclass integer;
+  DECLARE @fclass integer;
 	DECLARE @flight_number integer;
 	DECLARE @price decimal(12, 2);
 	DECLARE @occ_econ_cap integer;
@@ -85,6 +86,7 @@ BEGIN
 	WHERE flight_number = @flight_number;
 END
 GO
+
 -- Tests for the first trigger that verifies order_date is before flight_date
 INSERT INTO Bookings
 VALUES ('AA', 1000, 201, 4020, '2012-05-20', 'Petar Petkov', 1);
@@ -129,7 +131,7 @@ GO
 -- Views
 CREATE VIEW v_Flights_Schedule AS
   SELECT 
-    a.name,
+  a.name,
 	f.flight_number ,
 	f.flight_date,
 	f.price,
@@ -145,7 +147,7 @@ GO
 
 CREATE VIEW v_Company_Paymentsum AS
   SELECT
-    a.name,
+  a.name,
 	COUNT(DISTINCT f.flight_number) as flights_which_have_reservations,
 	SUM(f.paymentsum) as sum_of_all_paymentsums
   FROM 

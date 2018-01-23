@@ -15,10 +15,13 @@ RETURN
 	 s.arrv_time
   FROM 
      Flights f
-  INNER JOIN Schedules s ON s.flight_number = f.flight_number
+  INNER JOIN 
+     Schedules s ON s.flight_number = f.flight_number
   WHERE f.flight_date = @flight_date
 );
 GO
+
+SELECT * FROM dbo.ScheduleForAGivenFlight('2012-06-20')
 
 DROP FUNCTION dbo.ScheduleForAGivenFlight
 GO
@@ -74,7 +77,7 @@ CREATE VIEW v_info_about_airlines_company AS
   FROM 
      Airlines a
   INNER JOIN 
-      Flights f ON (a.code = f.airline_code)
+     Flights f ON (a.code = f.airline_code)
   INNER JOIN 
   (SELECT * FROM ScheduleForAGivenFlight(CAST(GETDATE() AS date))) AS s
   ON (f.flight_number = s.flight_number)
@@ -83,10 +86,12 @@ GO
 DROP VIEW v_info_about_airlines_company
 GO
 
+SELECT * FROM dbov_info_about_airlines_company
+
 -- TESTING THE VIEW
  
 INSERT INTO FLIGHTS
-    VALUES('DL', 1210, '2017-12-26', 427, 'USD', 385, 270, 52, 50, ((50*1.5 + 270)*427), 17);
+    VALUES('DL', 1215, '2018-01-15', 427, 'USD', 385, 270, 52, 50, ((50*1.5 + 270)*427), 17);
    
 INSERT INTO FLIGHTS
     VALUES('DL', 1211, '2017-12-30', 668, 'USD', 385, 300, 52, 0, (300*668), 17);
@@ -98,7 +103,7 @@ INSERT INTO FLIGHTS
     VALUES('DL', 1213, '2017-12-03', 669.94, 'USD', 385, 200, 52, 50, ((50*1.5 + 200)*669.94), 17);
    
 INSERT INTO SCHEDULES
-    VALUES('DL', 1210, 'US', 'NEW YORK', 'JFK', '12:00:00', 'US', 'SAN FRANSISCO', 'SFO', '15:03:00', 182, 2679);
+    VALUES('DL', 1215, 'US', 'NEW YORK', 'JFK', '12:00:00', 'US', 'SAN FRANSISCO', 'SFO', '15:03:00', 182, 2679);
    
 INSERT INTO SCHEDULES
     VALUES('DL', 1211, 'IT', 'ROME', 'FCO', '19:05:00', 'DE', 'FRANKFURT', 'FRA', '21:05:00', 125, 845);
